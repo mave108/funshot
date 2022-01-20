@@ -8,7 +8,7 @@ export const Search:FC<Searchprops> = ({}) => {
     return (
       <>
         <div className={classNames('relative', 'mx-auto', 'text-gray-600', focus?'z-20': '') }>
-        <input className="border-2 border-gray-300 bg-white h-10 px-5 pl-12 rounded-lg text-sm w-[36rem] focus:outline-none"
+        <input className="border-2 border-gray-300 bg-white h-10 px-5 pl-12 rounded-lg text-sm w-[36.1rem] focus:outline-none"
           type="search" name="search" placeholder="Search" 
           onFocus={()=>setFocus(true)}
           onBlur={()=> setFocus(false)}
