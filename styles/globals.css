@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.menu-item {
+  @apply px-3;
+  @apply py-2;
+  @apply rounded-md;
+  @apply text-lg;
+  @apply font-normal;
+  @apply hover:bg-primary;
+  @apply hover:text-white;
+}
