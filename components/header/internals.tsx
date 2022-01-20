@@ -34,14 +34,14 @@ export const Header: FC<HeaderProps> = () => {
                   <div className='flex space-x-1'>
                     <Link href='/' >
                     
-                    <a className='bg-gray-100 text-gray-700 menu-item' aria-current="page">
-                    <PlusCircleIcon className="h6 w-6 inline" />
-                       <span>Shot</span>
+                    <a className='bg-gray-100 text-gray-700 menu-item group' aria-current="page">
+                    <PlusCircleIcon className="h6 w-6 inline text-primary group-hover:text-white" />
+                       <span> shot</span>
                     </a>
                     </Link>                   
                   </div>
                 </div>
-                <div className='flex-shrink-0 flex items-center ml-[5.2rem]'>
+                <div className='flex-shrink-0 flex items-center ml-[4.8rem]'>
                     <Search />
               </div>
               </div>              
