@@ -1,5 +1,8 @@
 export interface ModalProps {
     show: boolean;
-    backdrop: boolean;
+    close:()=> void;
+    overlay?: boolean;
+    backdrop?: boolean;
     title?: string;
+    
 }
