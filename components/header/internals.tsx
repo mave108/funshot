@@ -1,7 +1,7 @@
-import { Fragment, FC } from "react";
-import { Disclosure, Menu, Transition } from "@headlessui/react";
+import { FC } from "react";
+import { Disclosure } from "@headlessui/react";
 import { MenuIcon, XIcon, PlusCircleIcon } from "@heroicons/react/outline";
-// import Image from "next/image";
+import Eev from 'eev';
 import Link from 'next/link';
 import { HeaderProps } from "./types";
 import { Logo } from '../logo';
@@ -10,6 +10,9 @@ import {Search} from '../search';
 
 
 export const Header: FC<HeaderProps> = () => {
+  // var eev = new Eev();
+  
+
   return (
     <Disclosure as='nav'>
       {({ open }) => (
@@ -31,12 +34,22 @@ export const Header: FC<HeaderProps> = () => {
 
                 <div className="flex-shrink-0 flex items-center"><Logo /></div>
                 <div className='hidden sm:block sm:ml-16'>                
-                  <div className='flex space-x-1'>
+                  <div className='flex space-x-1' >
                     <Link href='/' >
                     
-                    <a className='bg-gray-100 text-gray-700 menu-item group' aria-current="page">
+                    <a 
+                       className='bg-gray-100 text-gray-700 menu-item group' 
+                       aria-current="page" 
+                       
+                    >
+                      <button onClick={()=> {                                  
+                                  const evt =  new Event("addFunShot", {"bubbles":true, "cancelable":false});
+                                  document.dispatchEvent(evt);  
+                                                              
+                                }}>
                     <PlusCircleIcon className="h6 w-6 inline text-primary group-hover:text-white" />
                        <span> shot</span>
+                       </button>
                     </a>
                     </Link>                   
                   </div>
