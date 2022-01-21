@@ -2,6 +2,7 @@ import { FC, useState } from "react";
 import { Searchprops } from './types';
 import { SearchIcon } from '@heroicons/react/outline'
 import {classNames} from '../../utils/genral';
+import { Backdrop } from '../backdrop';
 
 export const Search:FC<Searchprops> = ({}) => {
     const [focus, setFocus] = useState<boolean>(false);
@@ -17,7 +18,7 @@ export const Search:FC<Searchprops> = ({}) => {
           <SearchIcon className="w-6 h-6 text-gray-400" />
         </button>        
       </div>
-      {focus && <div className="backdrop-blur-sm bg-white/30 w-full h-full fixed top-0 left-0 z-10"></div>}
+      <Backdrop show={focus} />
       </>
     )
 }
