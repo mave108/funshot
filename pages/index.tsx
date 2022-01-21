@@ -8,6 +8,9 @@ import { Spinner } from '../components/spinner';
 const Modal =  dynamic(() => import('../components/modal').then((mod) => mod.Modal),
 { loading: () => <Spinner text='Loading...' /> , ssr: false }
 );
+const PostVideo =  dynamic(() => import('../components/post').then((mod) => mod.Post),
+{ loading: () => <Spinner text='Loading...' /> , ssr: false }
+);
 
 
 
@@ -40,7 +43,7 @@ const Home: NextPage = () => {
         <VideoCard />
         <VideoCard />        
             <Modal show={isModalOpen} title='Upload Video' overlay={true} close={()=> toggleModal(false)}>
-            kjkljkljlkj
+              <PostVideo />
             </Modal>        
       </BaseLayout>
   )
