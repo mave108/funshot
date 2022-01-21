@@ -42,9 +42,10 @@ const Home: NextPage = () => {
         <VideoCard />
         <VideoCard />
         <VideoCard />        
+            {isModalOpen && 
             <Modal show={isModalOpen} title='Upload Video' overlay={true} close={()=> toggleModal(false)}>
               <PostVideo />
-            </Modal>        
+            </Modal>}     
       </BaseLayout>
   )
 }

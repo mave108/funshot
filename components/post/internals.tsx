@@ -20,9 +20,9 @@ export const Post:FC<PostProps> = ({}) => {
                 ></textarea>
             </div>
             <div className='pb-4 flex flex-wrap justify-end space-x-2 px-2'>            
-                <Chip text="Assign" />          
-                <Chip text="Label" />          
-                <Chip text="Due Date" />          
+                <Chip text="#Assign" />          
+                <Chip text="#Label" />          
+                <Chip text="#Due Date" />          
             </div>            
             <div className='pl-4 pr-2 flex flex-wrap justify-between border-t-[1px] py-2 items-center'>
                 {!isFileUploading && <label htmlFor="file-upload" className="cursor-pointer">
