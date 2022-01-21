@@ -42,7 +42,9 @@ export const Header: FC<HeaderProps> = () => {
                        aria-current="page" 
                        
                     >
-                      <button onClick={()=> {                                  
+                      <button 
+                      className='focus:outline-none'
+                      onClick={()=> {                                  
                                   const evt =  new Event("addFunShot", {"bubbles":true, "cancelable":false});
                                   document.dispatchEvent(evt);  
                                                               

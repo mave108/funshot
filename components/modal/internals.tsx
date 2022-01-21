@@ -42,7 +42,7 @@ export const Modal:FC<ModalProps> = ({title, show,children, backdrop, overlay, c
         <div className="min-h-screen px-4 text-center">                               
         <div className="inline-block relative w-full max-w-2xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-xl">
             {title && <Dialog.Title className='text-lg leading-6 font-medium text-gray-500'>{title}</Dialog.Title>}            
-            <button onClick={close} className="absolute py-1 right-6 top-6 bg-white text-xs font-light text-gray-900 px-2 rounded-md shadow-sm border">ESC</button>
+            <button onClick={close} className="absolute py-1 right-6 top-6 bg-white text-xs font-light text-gray-900 px-2 rounded-md shadow-sm border focus:outline-none">ESC</button>
             <div className="flex w-full">
                 {children}
             </div>          
