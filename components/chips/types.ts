@@ -1,5 +1,6 @@
 import { ReactElement } from "react";
 export enum ChipType {
+   PRIMARY = 'PRIMARY',
    DEFAULT = 'DEFAULT',
    WARNING = 'WARNING'
 }
