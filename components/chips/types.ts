@@ -10,5 +10,7 @@ export interface ChipProps {
     bounce?: boolean;
     hoverText?: string;
     chipType?: ChipType;
+    timeout?:number;
+    autoHide?: boolean;
     onClick?(item?: any): void;
 }
