@@ -1,6 +1,7 @@
 export enum ButtonTypes {
     PRIMARY = 'PRIMARY',
-    DEFAULT =  'DEFAULT'
+    DEFAULT = 'DEFAULT',
+    WARNING = 'WARNING'
 }
 export interface ButtonProps {
     type: ButtonTypes;
