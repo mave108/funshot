@@ -74,13 +74,30 @@ export const Post:FC<PostProps> = ({}) => {
             
         } 
     }
-    const addOldTag = (tag: Tag) => {        
-        //remove from suggested
-        updateSuggestedTags([...suggestedTags.filter((suggestedTag) => suggestedTag.id != tag.id)])
-        //add to selected
-        updateSelectedTags([...selectedTags,{id: tag.id, name: tag.name, isNew: false, alert: false}])
-        //remove from search source 
-        updateTags([...tags.map(({alert,...tag}) => ({...tag, alert: false})).filter((sourceTag) => sourceTag.id != tag.id)])
+    const addOldTag = (tag: Tag) => {     
+        //check existence in selected
+        const existInSelected = selectedTags.find((stag) => stag.id == tag.id);  
+        if (existInSelected)  {
+            const alertTags = [...selectedTags].map((stag) => ({...stag, ...(stag.id == existInSelected.id && {alert: true})}));                
+            updateSelectedTags(alertTags);
+            //revert the state to stop alert
+            setTimeout(() => updateSelectedTags([...selectedTags].map((stag) => ({...stag, ...(stag.id == existInSelected.id && {alert: false})}))), 4000);
+        }   else {                                     
+            //remove from suggested
+            updateSuggestedTags([...suggestedTags.filter((suggestedTag) => suggestedTag.id != tag.id)])
+            //add to selected
+            updateSelectedTags([...selectedTags,{id: tag.id, name: tag.name, isNew: false, alert: false}])
+            //remove from search source 
+            updateTags([...tags.map(({alert,...tag}) => ({...tag, alert: false})).filter((sourceTag) => sourceTag.id != tag.id)])
+        }
+    }
+
+    const removeSelected = (tag: Tag) => {
+        updateSelectedTags([...selectedTags].filter((stag) => stag.id != tag.id));
+        if (!tag.isNew){
+            updateTags([...tags,tag]);
+        } 
+        
     }
 
     return (
@@ -99,7 +116,7 @@ export const Post:FC<PostProps> = ({}) => {
             <div className='flex flex-col'>
                 {tagError && <Chip 
                 chipType={ChipType.WARNING}
-                autoHide={false}
+                autoHide={true}
                 timeout={5000}
                 text="Only 3 new tags can be added, you can still choose from existing(the orange one)" />}
                 <div className='pb-4 flex flex-wrap justify-between px-2'>    
@@ -114,12 +131,13 @@ export const Post:FC<PostProps> = ({}) => {
                     </div>
                 <div className='flex flex-row justify-end space-x-2 space-y-2 flex-wrap'>
                     {
-                        selectedTags.map(({name,id, alert = false}, index) => <Chip 
-                        text={'#'+name} 
-                        chipType={alert? ChipType.WARNING :ChipType.DEFAULT}
-                        key={`stag-${index}-${id}`} 
+                        selectedTags.map((tag) => <Chip 
+                        text={'#'+tag.name} 
+                        chipType={tag.alert? ChipType.WARNING :ChipType.DEFAULT}
+                        key={tag.id} 
                         hoverText="click to remove" 
-                        bounce={alert}                        
+                        bounce={tag.alert}   
+                        onClick={() => removeSelected(tag)}                     
                       ></Chip>
                     )}                                          
                 </div>                      
