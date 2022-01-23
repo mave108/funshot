@@ -1,9 +1,9 @@
-import React, { FC, useState, useEffect } from "react";
+import React, { FC, useState, useEffect, ReactText } from "react";
 import { PostProps, Tag } from "./types";
 import { Chip, ChipType } from "../chips";
 import {PaperClipIcon, CloudUploadIcon} from '@heroicons/react/outline';
 import { Button, ButtonTypes } from "../button";
-import { Progressbar } from "../progress-bar";
+// import { Progressbar } from "../progress-bar";
 import { TextField } from "../text-field";
 import Fuse from 'fuse.js';
 import axios from '../../utils/axios';
@@ -12,12 +12,12 @@ import { ExecuteOne } from "../../utils/genral";
 
 export const Post:FC<PostProps> = ({}) => {
     let [typedTag, updateTypedTag] = useState<string>();
-    let [isFileUploading, setFileUploadingState] = useState<boolean>(false);
+    let [fileName, setFileName] = useState<string>('');
     let [tags, updateTags] = useState<Tag[]>([]);
     let [selectedTags, updateSelectedTags] = useState<Tag[]>([]);
     let [suggestedTags, updateSuggestedTags] = useState<Tag[]>([]);
     let [bounceOnce, setBounceState] = useState<boolean>(true);
-    let [tagError, updateTagError] = useState<boolean>(false);
+    let [tagError, updateTagError] = useState<boolean>(false);    
 
 
     useEffect(()=> {
@@ -37,8 +37,14 @@ export const Post:FC<PostProps> = ({}) => {
         //set alert false
         // console.log("source tag", fuse.search(value));
         // bounceOnce && setTimeout(() => updateSuggestedTags([...suggestedTags].map((tag) => ({...tag,alert: false}))), 4000);        
-        ExecuteOne()(() => setTimeout(() => {setBounceState(false); console.log("executeOnce")}, 400));
+        ExecuteOne()(() => setTimeout(() => {setBounceState(false); console.log("executeOnce")}, 4000));
+    }
 
+    const fileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { files = []} = e.target;
+        if ( files && files.length > 0) {
+            setFileName(files[0].name);
+        }                    
     }
 
     const addNewTag = (e: React.KeyboardEvent<HTMLInputElement>) => {        
@@ -159,20 +165,21 @@ export const Post:FC<PostProps> = ({}) => {
             </div>
                        
             <div className='pl-4 pr-2 flex flex-wrap justify-between border-t-[1px] py-2 items-center'>
-                {!isFileUploading && <label htmlFor="file-upload" className="cursor-pointer">
+                <label htmlFor="file-upload" className="cursor-pointer flex flex-row space-x-4 items-center">
                     <span className='text-gray-500 font-medium'>
-                        <PaperClipIcon className='h-6 w-6 inline mr-2' /> 
-                        Attach a file
+                        <Chip text="Choose File" chipType={ChipType.PRIMARY}>
+                            <PaperClipIcon className='h-6 w-6 inline mr-2' /> 
+                        </Chip>                       
                         </span>
-                        <input id="file-upload" name="file-upload" type="file" className="sr-only" onChange={()=>{
-                            setFileUploadingState(true);
-                        }}/>
-                </label>}
-                {isFileUploading && 
-                    <div className="w-1/2">
-                         <Progressbar progress={30} /> 
-                    </div>
-                }
+                        {fileName && <span className='text-gray-500 text-sm'>{fileName}</span>}
+                        <input 
+                        id="file-upload" 
+                        name="file-upload" 
+                        type="file" 
+                        className="sr-only"                         
+                        accept="video/*"
+                        onChange={fileSelect}/>
+                </label>                
                <Button type={ButtonTypes.PRIMARY}>
                   <CloudUploadIcon className='h-6 w-6 text-white mr-2'/> 
                   <span className='text-base'>Save</span>
