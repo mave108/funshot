@@ -14,4 +14,5 @@ export interface ChipProps {
     timeout?:number;
     autoHide?: boolean;
     onClick?(item?: any): void;
+    shimmer?: boolean;
 }

@@ -13,6 +13,7 @@ export const Chip: FC<ChipProps> = ({
     timeout = 4000,
     autoHide = false,
     children,
+    shimmer = false,
     ...props
  }) => {
    let [remove, setRemoved] = useState<boolean>(false);
@@ -31,13 +32,17 @@ export const Chip: FC<ChipProps> = ({
                 'font-semibold',
                 'text-sm',
                 'flex',
-                'align-center',
+                'align-center',                
+                'min-h-[2.3rem]',
                 'w-max',
                 'cursor-pointer',
                 'active:bg-gray-300',
                 'transition',
                 'duration-300',
                 'relative',
+                {'bg-slate-200': shimmer}, 
+                {'w-1/4': shimmer},
+                {'animate-pulse': shimmer},
                 {'text-white' : chipType == ChipType.PRIMARY},
                 {'bg-primary': chipType == ChipType.PRIMARY},
                 {'hover:bg-blue-700': chipType == ChipType.PRIMARY},
@@ -56,7 +61,7 @@ export const Chip: FC<ChipProps> = ({
                 title={hoverText}
                 {...props}
                 >
-                {children} {text}
+                {!shimmer && children} {!shimmer && text}
                 {pulse && <Pulse />}
             </span>
         )}
