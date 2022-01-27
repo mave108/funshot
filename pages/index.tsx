@@ -11,6 +11,9 @@ const Modal =  dynamic(() => import('../components/modal').then((mod) => mod.Mod
 const PostVideo =  dynamic(() => import('../components/post').then((mod) => mod.Post),
 { loading: () => <Spinner text='Loading...' /> , ssr: false }
 );
+const CreatePost =  dynamic(() => import('../components/create-post').then((mod) => mod.CreatePost),
+{ loading: () => <Spinner text='Loading...' /> , ssr: false }
+);
 
 
 
@@ -34,14 +37,15 @@ const Home: NextPage = () => {
         <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
         <meta name="language" content="English" />
         <meta name="author" content="Rakesh"></meta>
-      </Head>      
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />        
+      </Head>
+        <CreatePost />    
+        <VideoCard 
+        
+        img='/scene.jpeg' 
+        user='braydoncoyer' 
+        title='The Coldest Sunset' 
+        tags={[{id: '123', name: 'Twiter'}]}
+        description='Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus quia, nulla! Maiores et perferendis eaque, exercitationem praesentium nihil.' />           
             {isModalOpen && 
             <Modal show={isModalOpen} title='Upload Video' overlay={true} close={()=> toggleModal(false)}>
               <PostVideo />
