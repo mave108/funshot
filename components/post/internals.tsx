@@ -106,8 +106,16 @@ export const Post:FC<PostProps> = ({}) => {
         
     }
 
+    const onSubmit = (e: any) => {
+        e.preventDefault();
+        const formdata = new FormData();
+        const evt =  new Event("submitFunShot", {"bubbles":true, "cancelable":false});
+        document.dispatchEvent(evt);  
+    }
+
     return (
         <div className='flex w-full flex-col justify-between border-[1px] shadow-sm rounded-md  mt-4'>
+            <form onSubmit={onSubmit}>
             <div className="py-2 px-4">
                 <TextField name="title" placeholder="Title" />
                 {console.log("rendered")}
@@ -128,7 +136,7 @@ export const Post:FC<PostProps> = ({}) => {
                 <div className='pb-4 flex flex-wrap justify-between px-2'>    
                   <div className='w-1/4 mb-2'>
                       <TextField 
-                        name="title" 
+                        name="description" 
                         placeholder="Tags" 
                         onChange={autoSuggestTags}
                         onKeyUp={addNewTag} 
@@ -185,6 +193,7 @@ export const Post:FC<PostProps> = ({}) => {
                   <span className='text-base'>Save</span>
                 </Button>
             </div>
+            </form>
         </div>
     );
 }
