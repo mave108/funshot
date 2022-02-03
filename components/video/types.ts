@@ -1,4 +1,4 @@
-export interface VideoProps {
+export interface VideoProps {    
     poster: string,
-    video: string;
+    video ?: string;
 }

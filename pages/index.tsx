@@ -7,6 +7,7 @@ import {VideoCard} from '../components/video-card';
 import { Spinner } from '../components/spinner';
 import { PostData } from '../components/post';
 import axios from '../utils/axios';
+import { Video } from '../components/video';
 
 const Modal =  dynamic(() => import('../components/modal').then((mod) => mod.Modal),
 { loading: () => <Spinner text='Loading...' /> , ssr: false }
@@ -46,7 +47,7 @@ const Home: NextPage = () => {
   document.addEventListener('newPostAdded', function (e: any) { 
     //prepend new post to exsisting list
     console.log("new post added",e.detail);
-    updatePost([{...e.detail},...posts]);
+    updatePost([{...e.detail},...posts]);    
           
 }, false);
   });
@@ -74,7 +75,10 @@ const Home: NextPage = () => {
           title={post.title} 
           tags={post.tags}
           description={post.description} 
-        />)       
+        >
+          <Video poster={`${process.env.NEXT_PUBLIC_API_END_POINT}stream/image/${post.id}`} />
+        </VideoCard>
+        )       
         }  
         
             {isModalOpen && 
