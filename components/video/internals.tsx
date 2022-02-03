@@ -10,9 +10,9 @@ export const Video: FC<VideoProps> = ({poster}) => {
             'flex',            
             'w-full',            
             'bg-no-repeat',
-            'bg-cover',
+            'bg-contain',
             'bg-center',                        
           )}  
-          style={{backgroundImage: 'url('+(poster)+')'}}></div>
+          style={{backgroundImage: `url(${poster})`}}></div>
     )
 }
