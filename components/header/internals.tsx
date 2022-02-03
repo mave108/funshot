@@ -1,7 +1,6 @@
 import { FC } from "react";
 import { Disclosure } from "@headlessui/react";
 import { MenuIcon, XIcon, PlusCircleIcon } from "@heroicons/react/outline";
-import Eev from 'eev';
 import Link from 'next/link';
 import { HeaderProps } from "./types";
 import { Logo } from '../logo';
