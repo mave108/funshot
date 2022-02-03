@@ -1,10 +1,13 @@
+import { useEffect, useState } from 'react';
 import type { NextPage } from 'next'
 import dynamic from 'next/dynamic'
-import { useEffect, useState } from 'react';
 import Head from 'next/head'
 import { BaseLayout } from '../components/layouts/base/internals'
 import {VideoCard} from '../components/video-card';
 import { Spinner } from '../components/spinner';
+import { PostData } from '../components/post';
+import axios from '../utils/axios';
+
 const Modal =  dynamic(() => import('../components/modal').then((mod) => mod.Modal),
 { loading: () => <Spinner text='Loading...' /> , ssr: false }
 );
@@ -19,12 +22,33 @@ const CreatePost =  dynamic(() => import('../components/create-post').then((mod)
 
 const Home: NextPage = () => {
   let [isModalOpen, toggleModal] = useState<boolean>(false);
+  const [posts, updatePost] = useState<PostData[]>([]);
+
+  useEffect(() => {
+    //get latest posts
+    axios.get('/post').then((data) => {
+      console.log("get posts", data.data.data.posts)
+      updatePost(data.data.data.posts);
+    });
+  }, []);
   
   useEffect (()=> {       
-    document.addEventListener('addFunShot', function (e) { 
-      // console.log("funshot clicked")
+    document.addEventListener('addFunShot', function (e) {  
+      //show modal     
       toggleModal(true);
     }, false);
+
+    document.addEventListener('submitFunShot', function (e) { 
+      //hide modal
+      toggleModal(false);
+
+  }, false);
+  document.addEventListener('newPostAdded', function (e: any) { 
+    //prepend new post to exsisting list
+    console.log("new post added",e.detail);
+    updatePost([{...e.detail},...posts]);
+          
+}, false);
   });
   return (
     <BaseLayout>
@@ -38,14 +62,21 @@ const Home: NextPage = () => {
         <meta name="language" content="English" />
         <meta name="author" content="Rakesh"></meta>
       </Head>
-        <CreatePost />    
-        <VideoCard 
+      {console.log("posts", posts)}
+        <CreatePost />  
+        {          
+          posts.length > 0 &&
+          posts.map((post) => <VideoCard 
+          id={post.id}
+          key={post.id}        
+          img={post.s3_url} 
+          user='braydoncoyer' 
+          title={post.title} 
+          tags={post.tags}
+          description={post.description} 
+        />)       
+        }  
         
-        img='/scene.jpeg' 
-        user='braydoncoyer' 
-        title='The Coldest Sunset' 
-        tags={[{id: '123', name: 'Twiter'}]}
-        description='Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus quia, nulla! Maiores et perferendis eaque, exercitationem praesentium nihil.' />           
             {isModalOpen && 
             <Modal show={isModalOpen} title='Upload Video' overlay={true} close={()=> toggleModal(false)}>
               <PostVideo />
