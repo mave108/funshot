@@ -15,7 +15,7 @@ export const VideoCard: FC<VideoCardProps> = ({
 }) => {
 
     return (
-        <div className="max-w-xl rounded overflow-hidden shadow-lg w-full bg-white mb-3">
+        <div className="max-w-xl rounded overflow-hidden shadow-lg w-full bg-white mb-3">          
             <div className='w-full flex justify-between p-3'>
               <div className="flex space-x-2 items-center">
                   <div className= {classNames(
@@ -52,7 +52,7 @@ export const VideoCard: FC<VideoCardProps> = ({
                 'w-full',
                 'h-[20rem]',                
                 {'animate-pulse': shimmer},
-                {'bg-slate-200': shimmer}
+                'bg-slate-200'
               )}  
               >
                 {children}
