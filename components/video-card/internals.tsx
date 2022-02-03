@@ -1,15 +1,17 @@
-import { FC } from "react";
+import { Children, FC } from "react";
 import { VideoCardProps } from './types';
 import {UserIcon} from '@heroicons/react/outline';
 import { Chip } from "../chips";
 import classNames from "classnames";
 
 export const VideoCard: FC<VideoCardProps> = ({
-  img,title = '', 
+  id: post_id,
+  title = '', 
   description = '', 
   tags = [], 
   user='Anonymous',
-  shimmer = false
+  shimmer = false,
+  children
 }) => {
 
     return (
@@ -45,16 +47,16 @@ export const VideoCard: FC<VideoCardProps> = ({
             </div>
             <div className={classNames(
                 'flex',
+                'relative',
                 'overflow-hidden',
                 'w-full',
-                'h-[20rem]',
-                'bg-no-repeat',
-                'bg-cover',
-                'bg-center',
-                {'animate-pulse': shimmer},
+                'h-[20rem]',                
+                {'animate-pulse': !shimmer},
                 {'bg-slate-200': shimmer}
               )}  
-              style={{backgroundImage: 'url('+(!shimmer && img)+')'}}></div>
+              >
+                {children}
+            </div>
             <div className="px-6 py-4">
                 <div className={classNames(
                   'font-bold',
@@ -82,7 +84,7 @@ export const VideoCard: FC<VideoCardProps> = ({
               }
             </div>
         <div className="px-6 pt-4 pb-2 flex flex-row space-x-2 justify-end">
-          {tags.length > 0 && tags.map(({id, name}) => <Chip text={name} key={id} shimmer = {shimmer}  />)}    
+          {tags.length > 0 && tags.map(({id, name}) => <Chip text={name} key={`${post_id}-${id}`} shimmer = {shimmer}  />)}    
         </div>
       </div>
     )
