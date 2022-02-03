@@ -51,7 +51,7 @@ export const VideoCard: FC<VideoCardProps> = ({
                 'overflow-hidden',
                 'w-full',
                 'h-[20rem]',                
-                {'animate-pulse': !shimmer},
+                {'animate-pulse': shimmer},
                 {'bg-slate-200': shimmer}
               )}  
               >
