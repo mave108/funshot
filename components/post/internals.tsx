@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect, ReactText } from "react";
+import React, { FC, useState, useEffect, useCallback } from "react";
 import { PostProps, Tag } from "./types";
 import { Chip, ChipType } from "../chips";
 import {PaperClipIcon, CloudUploadIcon} from '@heroicons/react/outline';
@@ -12,12 +12,15 @@ import { ExecuteOne } from "../../utils/genral";
 
 export const Post:FC<PostProps> = ({}) => {
     let [typedTag, updateTypedTag] = useState<string>();
+    let [video, setVideoFile] = useState<File>();
     let [fileName, setFileName] = useState<string>('');
     let [tags, updateTags] = useState<Tag[]>([]);
     let [selectedTags, updateSelectedTags] = useState<Tag[]>([]);
     let [suggestedTags, updateSuggestedTags] = useState<Tag[]>([]);
     let [bounceOnce, setBounceState] = useState<boolean>(true);
-    let [tagError, updateTagError] = useState<boolean>(false);    
+    let [tagError, updateTagError] = useState<boolean>(false);   
+    let [title, updateTitle] = useState<string>(); 
+    let [description, updateDescription] = useState<string>(); 
 
 
     useEffect(()=> {
@@ -37,15 +40,16 @@ export const Post:FC<PostProps> = ({}) => {
         //set alert false
         // console.log("source tag", fuse.search(value));
         // bounceOnce && setTimeout(() => updateSuggestedTags([...suggestedTags].map((tag) => ({...tag,alert: false}))), 4000);        
-        ExecuteOne()(() => setTimeout(() => {setBounceState(false); console.log("executeOnce")}, 4000));
+        ExecuteOne()(() => setTimeout(() => {setBounceState(false)}, 4000));
     }
 
-    const fileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const fileSelect = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         const { files = []} = e.target;
         if ( files && files.length > 0) {
             setFileName(files[0].name);
+            setVideoFile(files[0]);
         }                    
-    }
+    },[]);
 
     const addNewTag = (e: React.KeyboardEvent<HTMLInputElement>) => {        
         //on enter add new tag to the selected
@@ -105,27 +109,45 @@ export const Post:FC<PostProps> = ({}) => {
         } 
         
     }
+    const setTitle = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {        
+        updateTitle(e.target.value);
+    }, []);
+    const setDescription = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {        
+        updateDescription(e.target.value);
+    }, []);
 
-    const onSubmit = (e: any) => {
-        e.preventDefault();
-        const formdata = new FormData();
-        const evt =  new Event("submitFunShot", {"bubbles":true, "cancelable":false});
-        document.dispatchEvent(evt);  
-    }
+    const onSubmit = useCallback((e: React.FormEvent) => {        
+        e.preventDefault();                
+        const evt =  new CustomEvent("submitFunShot", {
+            "bubbles":true, 
+            "cancelable":false,
+            detail: {
+                tags: selectedTags,
+                description,
+                title,
+                video
+            }
+        });
+        document.dispatchEvent(evt);          
+    },[selectedTags, title, description, video]);
 
     return (
         <div className='flex w-full flex-col justify-between border-[1px] shadow-sm rounded-md  mt-4'>
             <form onSubmit={onSubmit}>
             <div className="py-2 px-4">
-                <TextField name="title" placeholder="Title" />
+                <TextField name="title" placeholder="Title" value={title} onChange={setTitle} />
                 {console.log("rendered")}
             </div>
             <div className="pb-2 px-4">
                 <textarea 
+                    name="description"
                     className="mt-1 text-lg text-gray-500 block w-full border-gray-300 focus:outline-none resize-none"
                     placeholder="Write Description..." 
                     rows={4}
-                ></textarea>
+                    value={description}
+                    onChange={setDescription}
+                >                    
+                </textarea>
             </div>
             <div className='flex flex-col'>
                 {tagError && <Chip 
@@ -182,7 +204,7 @@ export const Post:FC<PostProps> = ({}) => {
                         {fileName && <span className='text-gray-500 text-sm'>{fileName}</span>}
                         <input 
                         id="file-upload" 
-                        name="file-upload" 
+                        name="video" 
                         type="file" 
                         className="sr-only"                         
                         accept="video/*"
