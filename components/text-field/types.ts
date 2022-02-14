@@ -10,4 +10,5 @@ export interface TextFieldProps  {
    value?: string; 
    onChange?(e: React.ChangeEvent<HTMLInputElement>): void;
    onKeyUp?(e: React.KeyboardEvent<HTMLInputElement>): void;
+   onKeyPress?(e: React.KeyboardEvent<HTMLInputElement>): void;
 }
