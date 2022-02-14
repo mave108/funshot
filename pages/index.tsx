@@ -5,24 +5,20 @@ import Head from 'next/head'
 import { BaseLayout } from '../components/layouts/base/internals'
 import {VideoCard} from '../components/video-card';
 import { Spinner } from '../components/spinner';
-import { PostData } from '../components/post';
+import { PostData } from '../components/post-form';
 import axios from '../utils/axios';
 import { Video } from '../components/video';
+// import { CreatePost } from '../components/create-post';
 
-const Modal =  dynamic(() => import('../components/modal').then((mod) => mod.Modal),
-{ loading: () => <Spinner text='Loading...' /> , ssr: false }
-);
-const PostVideo =  dynamic(() => import('../components/post').then((mod) => mod.Post),
-{ loading: () => <Spinner text='Loading...' /> , ssr: false }
-);
-const CreatePost =  dynamic(() => import('../components/create-post').then((mod) => mod.CreatePost),
+
+const PostShimmer =  dynamic(() => import('../components/post-shimmer').then((mod) => mod.PostShimmer),
 { loading: () => <Spinner text='Loading...' /> , ssr: false }
 );
 
 
 
 const Home: NextPage = () => {
-  let [isModalOpen, toggleModal] = useState<boolean>(false);
+  // let [isModalOpen, toggleModal] = useState<boolean>(false);
   const [posts, updatePost] = useState<PostData[]>([]);
 
   useEffect(() => {
@@ -34,16 +30,16 @@ const Home: NextPage = () => {
   }, []);
   
   useEffect (()=> {       
-    document.addEventListener('addFunShot', function (e) {  
-      //show modal     
-      toggleModal(true);
-    }, false);
+    // document.addEventListener('addFunShot', function (e) {  
+    //   //show modal     
+    //   toggleModal(true);
+    // }, false);
 
-    document.addEventListener('submitFunShot', function (e) { 
-      //hide modal
-      toggleModal(false);
+  //   document.addEventListener('submitFunShot', function (e) { 
+  //     //hide modal
+  //     toggleModal(false);
 
-  }, false);
+  // }, false);
   document.addEventListener('newPostAdded', function (e: any) { 
     //prepend new post to exsisting list
     console.log("new post added",e.detail);
@@ -63,8 +59,7 @@ const Home: NextPage = () => {
         <meta name="language" content="English" />
         <meta name="author" content="Rakesh"></meta>
       </Head>
-      {console.log("posts", posts)}
-        <CreatePost />  
+        <PostShimmer />  
         {          
           posts.length > 0 &&
           posts.map((post) => <VideoCard 
@@ -76,15 +71,15 @@ const Home: NextPage = () => {
           tags={post.tags}
           description={post.description} 
         >
-          <Video poster={`${process.env.NEXT_PUBLIC_API_END_POINT}stream/image/${post.id}`} />
+          <Video 
+          poster={`${process.env.NEXT_PUBLIC_API_END_POINT}stream/image/${post.id}`} 
+          video={`${process.env.NEXT_PUBLIC_API_END_POINT}stream/video/${post.id}`}
+          />
         </VideoCard>
         )       
         }  
         
-            {isModalOpen && 
-            <Modal show={isModalOpen} title='Upload Video' overlay={true} close={()=> toggleModal(false)}>
-              <PostVideo />
-            </Modal>}     
+              
       </BaseLayout>
   )
 }
