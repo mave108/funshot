@@ -1,18 +1,34 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
+import dynamic from 'next/dynamic'
 import { Disclosure } from "@headlessui/react";
 import { MenuIcon, XIcon, PlusCircleIcon } from "@heroicons/react/outline";
 import Link from 'next/link';
 import { HeaderProps } from "./types";
 import { Logo } from '../logo';
 import {Search} from '../search';
+import { Spinner } from '../spinner';
+
+const Modal =  dynamic(() => import('../modal').then((mod) => mod.Modal),
+{ loading: () => <Spinner text='Loading...' /> , ssr: false }
+);
+const PostForm =  dynamic(() => import('../post-form').then((mod) => mod.PostForm),
+{ loading: () => <Spinner text='Loading...' /> , ssr: false }
+);
 
 
 
 export const Header: FC<HeaderProps> = () => {
-  // var eev = new Eev();
-  
+  let [isModalOpen, toggleModal] = useState<boolean>(false);
+   useEffect(() => {
+    document.addEventListener('submitFunShot', function (e) { 
+      //hide modal
+      toggleModal(false);
+
+  }, false);
+   }, []);
 
   return (
+    <>
     <Disclosure as='nav'>
       {({ open }) => (
         <>
@@ -43,11 +59,7 @@ export const Header: FC<HeaderProps> = () => {
                     >
                       <button 
                       className='focus:outline-none'
-                      onClick={()=> {                                  
-                                  const evt =  new Event("addFunShot", {"bubbles":true, "cancelable":false});
-                                  document.dispatchEvent(evt);  
-                                                              
-                                }}>
+                      onClick={()=> toggleModal(true)}>
                     <PlusCircleIcon className="h6 w-6 inline text-primary group-hover:text-white" />
                        <span> shot</span>
                        </button>
@@ -69,7 +81,12 @@ export const Header: FC<HeaderProps> = () => {
             </div>
           </div>          
         </>
-      )}
+      )}         
     </Disclosure>
+    {isModalOpen &&        
+            <Modal show={isModalOpen} title='Upload Video' overlay={true} close={()=> toggleModal(false)}>
+              <PostForm />
+            </Modal>}
+    </>
   );
 };
