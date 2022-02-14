@@ -2,7 +2,7 @@ import { FC } from "react";
 import { ButtonProps, ButtonTypes } from "./types";
 import classNames from "classnames";
 
-export const Button: FC<ButtonProps> = ({children, type, disabled = false}) => {
+export const Button: FC<ButtonProps> = ({children, type, disabled = false, ...props}) => {
 
     return (
         <button
@@ -34,6 +34,7 @@ export const Button: FC<ButtonProps> = ({children, type, disabled = false}) => {
                 {'bg-gray-100': type == ButtonTypes.DEFAULT},
                 {'hover:bg-gray-200': type == ButtonTypes.DEFAULT},                                            
             )}
+            {...props}
         >
             {children}
         </button>

@@ -5,5 +5,5 @@ export enum ButtonTypes {
 }
 export interface ButtonProps {
     type: ButtonTypes;
-    disabled?: boolean;
+    disabled?: boolean;    
 }
