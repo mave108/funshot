@@ -30,7 +30,7 @@ export const VideoCard: FC<VideoCardProps> = ({
                     {'animate-pulse': shimmer}                 
                   )}
                 >
-                    {!shimmer && <UserIcon className="inline-block h-6 w-6 rounded-full ring-1  text-white" /> }
+                    {!shimmer && <UserIcon className="inline-block h-6 w-6 rounded-full ring-0  text-white" /> }
                   </div>
                     <span className={classNames(
                       'pt-1',
@@ -84,7 +84,7 @@ export const VideoCard: FC<VideoCardProps> = ({
               }
             </div>
         <div className="px-6 pt-4 pb-2 flex flex-row space-x-2 justify-end">
-          {tags.length > 0 && tags.map(({id, name}) => <Chip text={name} key={`${post_id}-${id}`} shimmer = {shimmer}  />)}    
+          {tags.length > 0 && tags.map(({id, name}) => <Chip text={`#${name}`} key={`${post_id}-${id}`} shimmer = {shimmer}  />)}    
         </div>
       </div>
     )
