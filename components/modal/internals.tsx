@@ -5,8 +5,7 @@ import { Backdrop } from "../backdrop";
 
 export const Modal:FC<ModalProps> = ({title, show,children, backdrop, overlay, close}) => {
 
-    let completeButtonRef = useRef(null)
-    let [showCloseIcon, toggleCloseIcon] = useState<boolean>(false);
+    let completeButtonRef = useRef(null)    
 
     return (
         <Transition
